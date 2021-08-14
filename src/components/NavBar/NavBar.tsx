@@ -30,6 +30,7 @@ export default function NavBar() {
       <ul>
         {NAVIGATORS.map((link) => (
           <li
+            key={link.to}
             className={cx({
               active: location.pathname === link.to,
             })}

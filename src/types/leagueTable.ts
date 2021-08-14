@@ -1,6 +1,11 @@
 export interface LeagueItem {
-  team: string;
-  manager: string;
-  gwPoint: number;
-  total: number;
+  id: number;
+  createdDate: string;
+  lastModifiedDate: string;
+  name: string;
+  fplName: string;
+  fplId: number;
+  point: number;
+  position: number;
+  money: number;
 }
