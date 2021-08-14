@@ -1,12 +1,7 @@
-import Button from "@material-ui/core/Button";
+import useStyles from "./styles";
 
 export default function Dashboard() {
-  return (
-    <div>
-      Dashboard container
-      <Button variant="contained" color="primary">
-        Hello World
-      </Button>
-    </div>
-  );
+  const classes = useStyles();
+
+  return <div>Dashboard is coming</div>;
 }
