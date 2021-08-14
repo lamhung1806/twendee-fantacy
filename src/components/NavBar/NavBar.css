@@ -1,0 +1,20 @@
+.NavBar ul {
+  display: flex;
+  list-style: none;
+}
+.NavBar ul li {
+  padding: 16px;
+  min-width: 100px;
+  border-radius: 4px 4px 0 0;
+  margin-right: 4px;
+  background-color: #02884e;
+}
+.NavBar ul li .link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.NavBar ul .active {
+  background-color: #fff !important;
+  color: #242424 !important;
+}

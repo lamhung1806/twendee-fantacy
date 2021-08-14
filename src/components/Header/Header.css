@@ -1,0 +1,21 @@
+.Header {
+  background-color: #36033b;
+}
+.wrapper {
+  background: url(/src/assets/images/bg-header.svg) no-repeat;
+  background-size: cover;
+  margin: auto;
+}
+.player {
+  background: url(/src/assets/images/player-comp.png) no-repeat;
+  background-size: contain;
+  background-position-x: right;
+  max-width: 1220px;
+  margin: auto;
+}
+.gameTitle {
+  color: #fff;
+  padding: 3rem 0px;
+  font-size: 3.5rem;
+  text-align: left;
+}

@@ -1,11 +1,16 @@
-import React from "react";
-import "./App.scss";
-import bgHeader from "../../assets/images/bg-header.svg";
+import Header from "components/Header";
+import Router from "components/Router";
+import { BrowserRouter } from "react-router-dom";
+import "./App.css";
+
 function App() {
   return (
-    <div className="App">
-      <img src={bgHeader} alt="" />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Header />
+        <Router />
+      </div>
+    </BrowserRouter>
   );
 }
 
