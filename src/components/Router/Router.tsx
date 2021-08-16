@@ -1,4 +1,3 @@
-import Dashboard from "containers/Dashboard/Dashboard";
 import H2H from "containers/H2H";
 import LeagueTables from "containers/LeagueTables";
 import { RoutersEnum } from "enums/routers";
