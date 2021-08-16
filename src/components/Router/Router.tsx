@@ -8,10 +8,9 @@ export default function Router() {
   return (
     <>
       <Switch>
-        <Route path={RoutersEnum.DASHBOARD} component={Dashboard} />
-        <Route path={RoutersEnum.H2H} component={H2H} />
         <Route path={RoutersEnum.LEAGUE_TABLE} component={LeagueTables} />
-        <Redirect path="*" to={RoutersEnum.DASHBOARD} />
+        <Route path={RoutersEnum.H2H} component={H2H} />
+        <Redirect path="*" to={RoutersEnum.LEAGUE_TABLE} />
       </Switch>
     </>
   );

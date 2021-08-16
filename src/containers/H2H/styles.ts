@@ -5,7 +5,13 @@ const useStyles = makeStyles({
   container: {
     margin: "auto",
     maxWidth: 1220,
-    // paddingTop: 20,
+    paddingTop: 20,
+  },
+  button: {
+    width: 200,
+  },
+  gameWeekTitle: {
+    color: colors.black,
   },
   table: {},
   team: {
@@ -14,8 +20,9 @@ const useStyles = makeStyles({
   manager: {
     color: colors.black,
   },
-  pageTitle: {
-    textAlign: "left",
+  gameWeekComing: {
+    margin: "10px auto",
+    color: colors.red,
   },
 });
 export default useStyles;

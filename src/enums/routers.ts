@@ -1,5 +1,4 @@
 export enum RoutersEnum {
-  DASHBOARD = "/dashboard",
-  H2H = "/head-to-head",
+  H2H = "/gameweek",
   LEAGUE_TABLE = "/league-tables",
 }

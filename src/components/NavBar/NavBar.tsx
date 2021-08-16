@@ -10,16 +10,12 @@ export default function NavBar() {
   const NAVIGATORS = useMemo(
     () => [
       {
-        to: RoutersEnum.DASHBOARD,
-        title: "Dashboard",
-      },
-      {
         to: RoutersEnum.LEAGUE_TABLE,
         title: "League Tables",
       },
       {
         to: RoutersEnum.H2H,
-        title: "Head-to-head",
+        title: "Game week",
       },
     ],
     []
