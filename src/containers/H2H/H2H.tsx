@@ -11,114 +11,19 @@ import { useState } from "react";
 import useStyles from "./styles";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { GameWeekItem } from "types/leagueTable";
+import { GameWeekItem, H2HItem } from "types/leagueTable";
 import { useEffect, useMemo } from "react";
 import api from "api";
 import { ApiEndpointsEnum } from "enums/apis";
+import Chart from "react-google-charts";
 
 const MAX_GAME_WEEK = 38;
 export default function H2H() {
   const classes = useStyles();
 
   const [gameweek, setGameweek] = useState(1);
-  const [gameWeekTables, setGameWeekTables] = useState<Array<GameWeekItem>>([
-    {
-      id: 4,
-      team: {
-        id: 4,
-        name: "Thắng",
-        fplName: "Đứt Thắng",
-        fplId: 153965,
-      },
-      gameWeek: 1,
-      point: 85,
-      transfer: 0,
-      position: 1,
-      h2hRival: null,
-      h2hWin: false,
-      money: 10000,
-    },
-    {
-      id: 6,
-      team: {
-        id: 6,
-        name: "Tú Anh",
-        fplName: "[0]",
-        fplId: 81998,
-      },
-      gameWeek: 1,
-      point: 80,
-      transfer: 0,
-      position: 2,
-      h2hRival: null,
-      h2hWin: false,
-      money: 0,
-    },
-    {
-      id: 2,
-      team: {
-        id: 2,
-        name: "Long",
-        fplName: "Pending Moderation",
-        fplId: 5508768,
-      },
-      gameWeek: 1,
-      point: 79,
-      transfer: 0,
-      position: 3,
-      h2hRival: null,
-      h2hWin: false,
-      money: 0,
-    },
-    {
-      id: 1,
-      team: {
-        id: 1,
-        name: "Hưng",
-        fplName: "Cris",
-        fplId: 40394,
-      },
-      gameWeek: 1,
-      point: 78,
-      transfer: 0,
-      position: 4,
-      h2hRival: null,
-      h2hWin: false,
-      money: -20000,
-    },
-    {
-      id: 5,
-      team: {
-        id: 5,
-        name: "Phong",
-        fplName: "Nháp đến chết",
-        fplId: 126063,
-      },
-      gameWeek: 1,
-      point: 52,
-      transfer: 0,
-      position: 5,
-      h2hRival: null,
-      h2hWin: false,
-      money: -30000,
-    },
-    {
-      id: 3,
-      team: {
-        id: 3,
-        name: "Học",
-        fplName: "1st",
-        fplId: 2681408,
-      },
-      gameWeek: 1,
-      point: 42,
-      transfer: 0,
-      position: 6,
-      h2hRival: null,
-      h2hWin: false,
-      money: -40000,
-    },
-  ]);
+  const [gameWeekTables, setGameWeekTables] = useState<Array<GameWeekItem>>([]);
+  const [h2hResults, setH2HResults] = useState<Array<H2HItem>>([]);
 
   const previousGameWeek = () => {
     setGameweek(gameweek - 1);
@@ -135,6 +40,7 @@ export default function H2H() {
         },
       });
       setGameWeekTables(res?.data?.gameWeekResultDTOList);
+      setH2HResults(res?.data?.h2HDTOList);
     } catch (error) {}
   };
 
@@ -149,6 +55,25 @@ export default function H2H() {
     () => gameWeekTables?.length === 0,
     [gameWeekTables]
   );
+  const formatter = useMemo(() => {
+    return new Intl.NumberFormat("vi");
+  }, []);
+
+  const dataPieChart = useMemo(() => {
+    const gameWeekTablesSorted = [...gameWeekTables];
+    const listPlayerOrderById = gameWeekTablesSorted.sort(function (a, b) {
+      return a.team.id - b.team.id;
+    });
+
+    return [
+      ["Player", "Total money"],
+      ...listPlayerOrderById.map((e) => [
+        e.team.name,
+        e.h2hMoney + e.money < 0 ? -1 * (e.h2hMoney + e.money) : 0,
+      ]),
+    ];
+  }, [gameWeekTables]);
+
   return (
     <div className={classes.container}>
       <Grid container alignItems="flex-end">
@@ -183,42 +108,152 @@ export default function H2H() {
       {isEmptyGameWeekData ? (
         <div className={classes.gameWeekComing}>Game week is coming</div>
       ) : (
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>No</TableCell>
-              <TableCell>{`Team & Manager`}</TableCell>
-              <TableCell align="center">Transfer used</TableCell>
-              <TableCell align="center">Transfer bonus</TableCell>
-              <TableCell align="center">Point</TableCell>
-              <TableCell align="center">Classic money</TableCell>
-              <TableCell align="center">H2H money</TableCell>
-              <TableCell align="center">Total money</TableCell>
-            </TableRow>
-          </TableHead>
+        <div>
+          {/* H2H Table */}
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <Chart
+                width={"600px"}
+                height={"500px"}
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={dataPieChart}
+                options={{
+                  title: "Total contribution money",
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Table
+                className={classes.table}
+                aria-label="h2h table"
+                size="small"
+              >
+                <TableHead className={classes.tableHead}>
+                  <TableRow>
+                    <TableCell align="right">Team</TableCell>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="left">Team</TableCell>
+                  </TableRow>
+                </TableHead>
 
-          <TableBody>
-            {gameWeekTables.map((gameweek, index) => (
-              <TableRow key={index}>
-                <TableCell component="th" scope="row">
-                  {index + 1}
-                </TableCell>
-                <TableCell>
-                  <p className={classes.team}>{gameweek.team.fplName}</p>
-                  <p className={classes.manager}>{gameweek.team.name}</p>
-                </TableCell>
-                <TableCell align="center">{gameweek.transfer}</TableCell>
-                <TableCell align="center"></TableCell>
-                <TableCell align="center">{gameweek.point}</TableCell>
-                <TableCell align="center"></TableCell>
-                <TableCell align="center">
-                  {gameweek.h2hWin ? 0 : 10000}
-                </TableCell>
-                <TableCell align="center">{gameweek.money}</TableCell>
+                <TableBody>
+                  {h2hResults.map((h2hItem, index) => (
+                    <TableRow key={index}>
+                      <TableCell align="right">
+                        <a
+                          className={classes.team}
+                          target="_blank"
+                          rel="noreferrer"
+                          href={`https://fantasy.premierleague.com/entry/${h2hItem.team1fplId}/event/${gameweek}`}
+                        >
+                          {h2hItem.team1fplName}
+                        </a>
+                        <p className={classes.manager}>{h2hItem.team1Name}</p>
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className={classes.leftTeamPointH2hTable}
+                      >
+                        <div className={classes.teamPointH2hTable}>
+                          {h2hItem.team1Point}
+                        </div>
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        className={classes.rightTeamPointH2hTable}
+                      >
+                        <div className={classes.teamPointH2hTable}>
+                          {h2hItem.team2Point}
+                        </div>
+                      </TableCell>
+                      <TableCell align="left">
+                        <a
+                          className={classes.team}
+                          target="_blank"
+                          rel="noreferrer"
+                          href={`https://fantasy.premierleague.com/entry/${h2hItem.team2fplId}/event/${gameweek}`}
+                        >
+                          {h2hItem.team2fplName}
+                        </a>
+                        <p className={classes.manager}>{h2hItem.team2Name}</p>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Grid>
+          </Grid>
+
+          <Table
+            className={classes.table}
+            aria-label="simple table"
+            size="small"
+          >
+            <TableHead className={classes.tableHead}>
+              <TableRow>
+                <TableCell>Rank</TableCell>
+                <TableCell>{`Team & Manager`}</TableCell>
+                <TableCell align="center">Transfer made</TableCell>
+                <TableCell align="center">Transfer bonus</TableCell>
+                <TableCell align="center">Classic Point</TableCell>
+                <TableCell align="center">H2H Point</TableCell>
+                <TableCell align="center">Classic money</TableCell>
+                <TableCell align="center">H2H money</TableCell>
+                <TableCell align="center">Sum</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+
+            <TableBody>
+              {gameWeekTables.map((gameweekItem, index) => (
+                <TableRow key={index}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    className={classes.number}
+                  >
+                    {gameweekItem.position}
+                  </TableCell>
+                  <TableCell>
+                    <a
+                      className={classes.team}
+                      target="_blank"
+                      rel="noreferrer"
+                      href={`https://fantasy.premierleague.com/entry/${gameweekItem.team.fplId}/event/${gameweek}`}
+                    >
+                      {gameweekItem.team.fplName}
+                    </a>
+                    <p className={classes.manager}>{gameweekItem.team.name}</p>
+                  </TableCell>
+                  <TableCell align="center" className={classes.number}>
+                    {gameweekItem.transfer}
+                  </TableCell>
+                  <TableCell align="center" className={classes.number}>
+                    {gameweekItem.bonusTransfer}
+                  </TableCell>
+                  <TableCell align="center" className={classes.number}>
+                    {gameweekItem.point}
+                  </TableCell>
+                  <TableCell align="center" className={classes.number}>
+                    {gameweekItem.h2hPoint}
+                  </TableCell>
+                  <TableCell align="center" className={classes.number}>
+                    {formatter.format(gameweekItem.money)}
+                  </TableCell>
+                  <TableCell align="center" className={classes.number}>
+                    {formatter.format(gameweekItem.h2hMoney)}
+                  </TableCell>
+                  <TableCell align="center" className={classes.number}>
+                    {formatter.format(
+                      gameweekItem.money + gameweekItem.h2hMoney
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       )}
     </div>
   );

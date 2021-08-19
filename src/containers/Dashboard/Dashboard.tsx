@@ -15,12 +15,12 @@ export default function Dashboard() {
             loader={<div>Loading Chart</div>}
             data={[
               ["Money", "Total money"],
-              ["Erik", 11],
-              ["Cris", 11],
-              ["Tu Anh", 2],
-              ["Thang", 7],
-              ["Hoc", 2],
-              ["Phong", 2],
+              ["User1", 11],
+              ["User2", 11],
+              ["User3", 2],
+              ["User4", 7],
+              ["User5", 2],
+              ["User6", 2],
             ]}
             options={{
               title: "Total contribution money",
@@ -34,7 +34,7 @@ export default function Dashboard() {
             chartType="Bar"
             loader={<div>Loading Chart</div>}
             data={[
-              ["", "Erik", "Cris", "Tu Anh", "Thang", "Hoc", "Phong"],
+              ["", "User1", "User2", "User3", "User4", "User5", "User6"],
               ["GW1", 10000, 20000, 30000, 40000, 0, 0],
               ["GW2", 0, 0, 10000, 20000, 30000, 40000],
               ["GW3", 10000, 0, 20000, 30000, 40000, 0],

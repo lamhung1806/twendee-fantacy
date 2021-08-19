@@ -5,17 +5,18 @@ const useStyles = makeStyles({
   container: {
     margin: "auto",
     maxWidth: 1220,
-    // paddingTop: 20,
   },
-  table: {},
+  table: {
+    margin: "20px 0",
+  },
+  tableHead: {
+    backgroundColor: colors.lightGray,
+  },
   team: {
     color: colors.red,
   },
   manager: {
     color: colors.black,
-  },
-  pageTitle: {
-    textAlign: "left",
   },
 });
 export default useStyles;

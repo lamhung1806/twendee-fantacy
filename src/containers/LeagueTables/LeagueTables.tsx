@@ -3,11 +3,13 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { LeagueItem } from "types/leagueTable";
 import useStyles from "./styles";
 import api from "api";
 import { ApiEndpointsEnum } from "enums/apis";
+import Chart from "react-google-charts";
+import { Grid } from "@material-ui/core";
 
 export default function LeagueTables() {
   const classes = useStyles();
@@ -22,14 +24,44 @@ export default function LeagueTables() {
   useEffect(() => {
     fetchLeagueTables();
   }, []);
+  const formatter = useMemo(() => {
+    return new Intl.NumberFormat("vi");
+  }, []);
+  const dataPieChart = useMemo(() => {
+    const gameWeekTablesSorted = [...rows];
+    const listPlayerOrderById = gameWeekTablesSorted.sort(function (a, b) {
+      return a.id - b.id;
+    });
+
+    return [
+      ["Player", "Total money"],
+      ...listPlayerOrderById.map((e) => [
+        e.name,
+        e.h2hMoney + e.money < 0 ? -1 * (e.h2hMoney + e.money) : 0,
+      ]),
+    ];
+  }, [rows]);
   return (
     <div className={classes.container}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
+      <Grid container justifyContent="center">
+        <Chart
+          width={"700px"}
+          height={"400px"}
+          chartType="PieChart"
+          loader={<div>Loading Chart</div>}
+          data={dataPieChart}
+          options={{
+            title: "Total contribution money",
+          }}
+        />
+      </Grid>
+
+      <Table className={classes.table} aria-label="h2h table" size="small">
+        <TableHead className={classes.tableHead}>
           <TableRow>
             <TableCell>Rank</TableCell>
             <TableCell>{`Team & Manager`}</TableCell>
-            <TableCell align="right">Point</TableCell>
+            <TableCell align="center">Point</TableCell>
             <TableCell align="right">Money</TableCell>
           </TableRow>
         </TableHead>
@@ -43,8 +75,10 @@ export default function LeagueTables() {
                 <p className={classes.team}>{row.fplName}</p>
                 <p className={classes.manager}>{row.name}</p>
               </TableCell>
-              <TableCell align="right">{row.point}</TableCell>
-              <TableCell align="right">{row.money}</TableCell>
+              <TableCell align="center">{row.point}</TableCell>
+              <TableCell align="right">
+                {formatter.format(row.money + row.h2hMoney)}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

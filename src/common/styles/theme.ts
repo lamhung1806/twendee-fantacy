@@ -7,5 +7,6 @@ export const colors = {
   black: "#242424",
   lightGreen: "#25ef8a",
   green: "#02884e",
+  lightGray: "rgb(239, 239, 239)",
 };
 export const theme = createTheme({});
