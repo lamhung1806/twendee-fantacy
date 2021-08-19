@@ -6,7 +6,7 @@ export default function Header() {
     <div className="Header">
       <div className="wrapper">
         <div className="player">
-          <h1 className="gameTitle">Donator Fantasy EPL</h1>
+          <h1 className="gameTitle">Twendee Fantasy EPL</h1>
           <NavBar />
         </div>
       </div>
