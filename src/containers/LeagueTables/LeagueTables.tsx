@@ -45,8 +45,8 @@ export default function LeagueTables() {
     <div className={classes.container}>
       <Grid container justifyContent="center">
         <Chart
-          width={"700px"}
-          height={"400px"}
+          width={"100%"}
+          height={"500px"}
           chartType="PieChart"
           loader={<div>Loading Chart</div>}
           data={dataPieChart}

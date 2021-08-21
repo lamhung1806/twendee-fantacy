@@ -1,12 +1,13 @@
 import NavBar from "components/NavBar";
-import "./Header.css";
+import useStyles from "./styles";
 
 export default function Header() {
+  const classes = useStyles();
   return (
-    <div className="Header">
-      <div className="wrapper">
-        <div className="player">
-          <h1 className="gameTitle">Twendee Fantasy EPL</h1>
+    <div className={classes.root}>
+      <div className={classes.wrapper}>
+        <div className={classes.player}>
+          <h1 className={classes.gameTitle}>Twendee Fantasy EPL</h1>
           <NavBar />
         </div>
       </div>

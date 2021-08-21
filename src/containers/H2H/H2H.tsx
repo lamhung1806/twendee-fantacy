@@ -6,8 +6,10 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  withWidth,
+  TableContainer,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useStyles from "./styles";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -18,17 +20,21 @@ import { ApiEndpointsEnum } from "enums/apis";
 import Chart from "react-google-charts";
 
 const MAX_GAME_WEEK = 38;
-export default function H2H() {
+interface H2HProps {
+  width: string;
+}
+function H2H({ width }: H2HProps) {
   const classes = useStyles();
-
   const [gameweek, setGameweek] = useState(1);
   const [gameWeekTables, setGameWeekTables] = useState<Array<GameWeekItem>>([]);
   const [h2hResults, setH2HResults] = useState<Array<H2HItem>>([]);
 
   const previousGameWeek = () => {
+    fetchGameWeekTable(gameweek - 1);
     setGameweek(gameweek - 1);
   };
   const nextGameWeek = () => {
+    fetchGameWeekTable(gameweek + 1);
     setGameweek(gameweek + 1);
   };
 
@@ -43,13 +49,18 @@ export default function H2H() {
       setH2HResults(res?.data?.h2HDTOList);
     } catch (error) {}
   };
-
+  const getCurrentGameweek = useCallback(async () => {
+    try {
+      const res = await api.get(ApiEndpointsEnum.GET_CURRENT_GAMEWEEK);
+      if (res) {
+        setGameweek(res.data);
+        fetchGameWeekTable(res.data);
+      }
+    } catch (error) {}
+  }, []);
   useEffect(() => {
-    fetchGameWeekTable(gameweek);
-    return () => {
-      setGameWeekTables([]);
-    };
-  }, [gameweek]);
+    getCurrentGameweek();
+  }, [getCurrentGameweek]);
 
   const isEmptyGameWeekData = useMemo(
     () => gameWeekTables?.length === 0,
@@ -74,9 +85,12 @@ export default function H2H() {
     ];
   }, [gameWeekTables]);
 
+  const isMobileScreen = useMemo(() => {
+    return width === "sm";
+  }, [width]);
   return (
     <div className={classes.container}>
-      <Grid container alignItems="flex-end">
+      <Grid container alignItems="center">
         <Grid item xs={4}>
           <Button
             variant="contained"
@@ -110,11 +124,15 @@ export default function H2H() {
       ) : (
         <div>
           {/* H2H Table */}
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
+          <Grid
+            container
+            spacing={3}
+            direction={isMobileScreen ? "column" : "row"}
+          >
+            <Grid item lg={6}>
               <Chart
-                width={"600px"}
-                height={"500px"}
+                width={"100%"}
+                height={isMobileScreen ? "300px" : "400px"}
                 chartType="PieChart"
                 loader={<div>Loading Chart</div>}
                 data={dataPieChart}
@@ -123,7 +141,7 @@ export default function H2H() {
                 }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item lg={6} sm={12} xs={12}>
               <Table
                 className={classes.table}
                 aria-label="h2h table"
@@ -186,79 +204,85 @@ export default function H2H() {
             </Grid>
           </Grid>
 
-          <Table
-            className={classes.table}
-            aria-label="simple table"
-            size="small"
-          >
-            <TableHead className={classes.tableHead}>
-              <TableRow>
-                <TableCell>Rank</TableCell>
-                <TableCell>{`Team & Manager`}</TableCell>
-                <TableCell align="center">Transfer made</TableCell>
-                <TableCell align="center">Transfer bonus</TableCell>
-                <TableCell align="center">Classic point</TableCell>
-                <TableCell align="center">H2H point</TableCell>
-                <TableCell align="center">Ranking point</TableCell>
-                <TableCell align="center">Classic money</TableCell>
-                <TableCell align="center">H2H money</TableCell>
-                <TableCell align="center">Sum</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {gameWeekTables.map((gameweekItem, index) => (
-                <TableRow key={index}>
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    className={classes.number}
-                  >
-                    {gameweekItem.position}
-                  </TableCell>
-                  <TableCell>
-                    <a
-                      className={classes.team}
-                      target="_blank"
-                      rel="noreferrer"
-                      href={`https://fantasy.premierleague.com/entry/${gameweekItem.team.fplId}/event/${gameweek}`}
-                    >
-                      {gameweekItem.team.fplName}
-                    </a>
-                    <p className={classes.manager}>{gameweekItem.team.name}</p>
-                  </TableCell>
-                  <TableCell align="center" className={classes.number}>
-                    {gameweekItem.transfer}
-                  </TableCell>
-                  <TableCell align="center" className={classes.number}>
-                    {gameweekItem.bonusTransfer}
-                  </TableCell>
-                  <TableCell align="center" className={classes.number}>
-                    {gameweekItem.point}
-                  </TableCell>
-                  <TableCell align="center" className={classes.number}>
-                    {gameweekItem.h2hPoint}
-                  </TableCell>
-                  <TableCell align="center" className={classes.number}>
-                    {gameweekItem.localPoint}
-                  </TableCell>
-                  <TableCell align="center" className={classes.number}>
-                    {formatter.format(gameweekItem.money)}
-                  </TableCell>
-                  <TableCell align="center" className={classes.number}>
-                    {formatter.format(gameweekItem.h2hMoney)}
-                  </TableCell>
-                  <TableCell align="center" className={classes.number}>
-                    {formatter.format(
-                      gameweekItem.money + gameweekItem.h2hMoney
-                    )}
-                  </TableCell>
+          <TableContainer>
+            <Table
+              className={classes.table}
+              aria-label="simple table"
+              size="small"
+            >
+              <TableHead className={classes.tableHead}>
+                <TableRow>
+                  <TableCell>Rank</TableCell>
+                  <TableCell>{`Team & Manager`}</TableCell>
+                  <TableCell align="center">Transfer made</TableCell>
+                  <TableCell align="center">Transfer bonus</TableCell>
+                  <TableCell align="center">Classic point</TableCell>
+                  <TableCell align="center">H2H point</TableCell>
+                  <TableCell align="center">Ranking point</TableCell>
+                  <TableCell align="center">Classic money</TableCell>
+                  <TableCell align="center">H2H money</TableCell>
+                  <TableCell align="center">Sum</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+
+              <TableBody>
+                {gameWeekTables.map((gameweekItem, index) => (
+                  <TableRow key={index}>
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      className={classes.number}
+                    >
+                      {gameweekItem.position}
+                    </TableCell>
+                    <TableCell>
+                      <a
+                        className={classes.team}
+                        target="_blank"
+                        rel="noreferrer"
+                        href={`https://fantasy.premierleague.com/entry/${gameweekItem.team.fplId}/event/${gameweek}`}
+                      >
+                        {gameweekItem.team.fplName}
+                      </a>
+                      <p className={classes.manager}>
+                        {gameweekItem.team.name}
+                      </p>
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {gameweekItem.transfer}
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {gameweekItem.bonusTransfer}
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {gameweekItem.point}
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {gameweekItem.h2hPoint}
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {gameweekItem.localPoint}
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {formatter.format(gameweekItem.money)}
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {formatter.format(gameweekItem.h2hMoney)}
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {formatter.format(
+                        gameweekItem.money + gameweekItem.h2hMoney
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       )}
     </div>
   );
 }
+
+export default withWidth()(H2H);

@@ -1,7 +1,7 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { colors } from "common/styles/theme";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   container: {
     margin: "auto",
     maxWidth: 1220,
@@ -14,9 +14,17 @@ const useStyles = makeStyles({
     "&label": {
       justifyContent: "space-between",
     },
+
+    [theme.breakpoints.down("sm")]: {
+      width: 100,
+    },
   },
   gameWeekTitle: {
     color: colors.black,
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 18,
+    },
   },
   table: {
     margin: "20px 0",
@@ -47,6 +55,10 @@ const useStyles = makeStyles({
     fontSize: 18,
     color: colors.white,
     backgroundColor: colors.purple,
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 16,
+    },
   },
   leftTeamPointH2hTable: {
     paddingRight: 0,
@@ -58,5 +70,5 @@ const useStyles = makeStyles({
   number: {
     fontSize: 16,
   },
-});
+}));
 export default useStyles;
