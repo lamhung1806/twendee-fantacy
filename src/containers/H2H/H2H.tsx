@@ -197,8 +197,9 @@ export default function H2H() {
                 <TableCell>{`Team & Manager`}</TableCell>
                 <TableCell align="center">Transfer made</TableCell>
                 <TableCell align="center">Transfer bonus</TableCell>
-                <TableCell align="center">Classic Point</TableCell>
-                <TableCell align="center">H2H Point</TableCell>
+                <TableCell align="center">Classic point</TableCell>
+                <TableCell align="center">H2H point</TableCell>
+                <TableCell align="center">Ranking point</TableCell>
                 <TableCell align="center">Classic money</TableCell>
                 <TableCell align="center">H2H money</TableCell>
                 <TableCell align="center">Sum</TableCell>
@@ -237,6 +238,9 @@ export default function H2H() {
                   </TableCell>
                   <TableCell align="center" className={classes.number}>
                     {gameweekItem.h2hPoint}
+                  </TableCell>
+                  <TableCell align="center" className={classes.number}>
+                    {gameweekItem.localPoint}
                   </TableCell>
                   <TableCell align="center" className={classes.number}>
                     {formatter.format(gameweekItem.money)}

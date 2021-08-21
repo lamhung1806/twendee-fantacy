@@ -72,7 +72,14 @@ export default function LeagueTables() {
                 {row.position}
               </TableCell>
               <TableCell>
-                <p className={classes.team}>{row.fplName}</p>
+                <a
+                  className={classes.team}
+                  target="_blank"
+                  rel="noreferrer"
+                  href={`https://fantasy.premierleague.com/entry/${row.fplId}/history`}
+                >
+                  {row.fplName}
+                </a>
                 <p className={classes.manager}>{row.name}</p>
               </TableCell>
               <TableCell align="center">{row.point}</TableCell>

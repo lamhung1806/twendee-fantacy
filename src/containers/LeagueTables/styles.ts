@@ -14,6 +14,10 @@ const useStyles = makeStyles({
   },
   team: {
     color: colors.red,
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
+    },
   },
   manager: {
     color: colors.black,
