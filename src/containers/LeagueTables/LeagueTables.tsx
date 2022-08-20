@@ -83,9 +83,7 @@ export default function LeagueTables() {
                 <p className={classes.manager}>{row.name}</p>
               </TableCell>
               <TableCell align="center">{row.point}</TableCell>
-              <TableCell align="right">
-                {formatter.format(row.money + row.h2hMoney)}
-              </TableCell>
+              <TableCell align="right">{formatter.format(row.money)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

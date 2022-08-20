@@ -149,17 +149,17 @@ function H2H({ width }: H2HProps) {
               >
                 <TableHead className={classes.tableHead}>
                   <TableRow>
-                    <TableCell align="right">Team</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
                     <TableCell align="left">Team</TableCell>
+                    {/* <TableCell align="center"></TableCell> */}
+                    <TableCell align="left">Point</TableCell>
+                    {/* <TableCell align="left">Team</TableCell> */}
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
                   {h2hResults.map((h2hItem, index) => (
                     <TableRow key={index}>
-                      <TableCell align="right">
+                      <TableCell align="left">
                         <a
                           className={classes.team}
                           target="_blank"
@@ -178,7 +178,7 @@ function H2H({ width }: H2HProps) {
                           {h2hItem.team1Point}
                         </div>
                       </TableCell>
-                      <TableCell
+                      {/* <TableCell
                         align="center"
                         className={classes.rightTeamPointH2hTable}
                       >
@@ -196,7 +196,7 @@ function H2H({ width }: H2HProps) {
                           {h2hItem.team2fplName}
                         </a>
                         <p className={classes.manager}>{h2hItem.team2Name}</p>
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -217,10 +217,10 @@ function H2H({ width }: H2HProps) {
                   <TableCell align="center">Transfer made</TableCell>
                   <TableCell align="center">Transfer bonus</TableCell>
                   <TableCell align="center">Classic point</TableCell>
-                  <TableCell align="center">H2H point</TableCell>
+                  {/* <TableCell align="center">H2H point</TableCell> */}
                   <TableCell align="center">Ranking point</TableCell>
                   <TableCell align="center">Classic money</TableCell>
-                  <TableCell align="center">H2H money</TableCell>
+                  {/* <TableCell align="center">H2H money</TableCell> */}
                   <TableCell align="center">Sum</TableCell>
                 </TableRow>
               </TableHead>
@@ -257,22 +257,20 @@ function H2H({ width }: H2HProps) {
                     <TableCell align="center" className={classes.number}>
                       {gameweekItem.point}
                     </TableCell>
-                    <TableCell align="center" className={classes.number}>
+                    {/* <TableCell align="center" className={classes.number}>
                       {gameweekItem.h2hPoint}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="center" className={classes.number}>
                       {gameweekItem.localPoint}
                     </TableCell>
                     <TableCell align="center" className={classes.number}>
                       {formatter.format(gameweekItem.money)}
                     </TableCell>
-                    <TableCell align="center" className={classes.number}>
+                    {/* <TableCell align="center" className={classes.number}>
                       {formatter.format(gameweekItem.h2hMoney)}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="center" className={classes.number}>
-                      {formatter.format(
-                        gameweekItem.money + gameweekItem.h2hMoney
-                      )}
+                      {formatter.format(gameweekItem.money)}
                     </TableCell>
                   </TableRow>
                 ))}
