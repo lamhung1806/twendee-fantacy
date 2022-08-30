@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: `http://54.179.55.245:8097/api`,
+  baseURL: `https://fantasy-pl.twendeesoft.com/be/api/`,
 });
 
 export default instance;
