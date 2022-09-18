@@ -28,7 +28,6 @@ function H2H({ width }: H2HProps) {
   const [gameweek, setGameweek] = useState(1);
   const [gameWeekTables, setGameWeekTables] = useState<Array<GameWeekItem>>([]);
   const [h2hResults, setH2HResults] = useState<Array<H2HItem>>([]);
-
   const previousGameWeek = () => {
     fetchGameWeekTable(gameweek - 1);
     setGameweek(gameweek - 1);
@@ -129,7 +128,7 @@ function H2H({ width }: H2HProps) {
             spacing={3}
             direction={isMobileScreen ? "column" : "row"}
           >
-            <Grid item lg={6}>
+            <Grid item lg={12}>
               <Chart
                 width={"100%"}
                 height={isMobileScreen ? "300px" : "400px"}
@@ -140,67 +139,6 @@ function H2H({ width }: H2HProps) {
                   title: "Total contribution money",
                 }}
               />
-            </Grid>
-            <Grid item lg={6} sm={12} xs={12}>
-              <Table
-                className={classes.table}
-                aria-label="h2h table"
-                size="small"
-              >
-                <TableHead className={classes.tableHead}>
-                  <TableRow>
-                    <TableCell align="left">Team</TableCell>
-                    {/* <TableCell align="center"></TableCell> */}
-                    <TableCell align="left">Point</TableCell>
-                    {/* <TableCell align="left">Team</TableCell> */}
-                  </TableRow>
-                </TableHead>
-
-                <TableBody>
-                  {h2hResults.map((h2hItem, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="left">
-                        <a
-                          className={classes.team}
-                          target="_blank"
-                          rel="noreferrer"
-                          href={`https://fantasy.premierleague.com/entry/${h2hItem.team1fplId}/event/${gameweek}`}
-                        >
-                          {h2hItem.team1fplName}
-                        </a>
-                        <p className={classes.manager}>{h2hItem.team1Name}</p>
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        className={classes.leftTeamPointH2hTable}
-                      >
-                        <div className={classes.teamPointH2hTable}>
-                          {h2hItem.team1Point}
-                        </div>
-                      </TableCell>
-                      {/* <TableCell
-                        align="center"
-                        className={classes.rightTeamPointH2hTable}
-                      >
-                        <div className={classes.teamPointH2hTable}>
-                          {h2hItem.team2Point}
-                        </div>
-                      </TableCell>
-                      <TableCell align="left">
-                        <a
-                          className={classes.team}
-                          target="_blank"
-                          rel="noreferrer"
-                          href={`https://fantasy.premierleague.com/entry/${h2hItem.team2fplId}/event/${gameweek}`}
-                        >
-                          {h2hItem.team2fplName}
-                        </a>
-                        <p className={classes.manager}>{h2hItem.team2Name}</p>
-                      </TableCell> */}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
             </Grid>
           </Grid>
 
@@ -217,11 +155,9 @@ function H2H({ width }: H2HProps) {
                   <TableCell align="center">Transfer made</TableCell>
                   <TableCell align="center">Transfer bonus</TableCell>
                   <TableCell align="center">Classic point</TableCell>
-                  {/* <TableCell align="center">H2H point</TableCell> */}
+
                   <TableCell align="center">Ranking point</TableCell>
-                  <TableCell align="center">Classic money</TableCell>
-                  {/* <TableCell align="center">H2H money</TableCell> */}
-                  <TableCell align="center">Sum</TableCell>
+                  <TableCell align="center">Money</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -257,18 +193,9 @@ function H2H({ width }: H2HProps) {
                     <TableCell align="center" className={classes.number}>
                       {gameweekItem.point}
                     </TableCell>
-                    {/* <TableCell align="center" className={classes.number}>
-                      {gameweekItem.h2hPoint}
-                    </TableCell> */}
                     <TableCell align="center" className={classes.number}>
                       {gameweekItem.localPoint}
                     </TableCell>
-                    <TableCell align="center" className={classes.number}>
-                      {formatter.format(gameweekItem.money)}
-                    </TableCell>
-                    {/* <TableCell align="center" className={classes.number}>
-                      {formatter.format(gameweekItem.h2hMoney)}
-                    </TableCell> */}
                     <TableCell align="center" className={classes.number}>
                       {formatter.format(gameweekItem.money)}
                     </TableCell>

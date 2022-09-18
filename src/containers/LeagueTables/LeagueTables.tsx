@@ -63,6 +63,7 @@ export default function LeagueTables() {
             <TableCell>{`Team & Manager`}</TableCell>
             <TableCell align="center">Point</TableCell>
             <TableCell align="right">Money</TableCell>
+            <TableCell align="right">Voucher</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -84,6 +85,7 @@ export default function LeagueTables() {
               </TableCell>
               <TableCell align="center">{row.point}</TableCell>
               <TableCell align="right">{formatter.format(row.money)}</TableCell>
+              <TableCell align="center">{row.voucher}</TableCell>
             </TableRow>
           ))}
         </TableBody>

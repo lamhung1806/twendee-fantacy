@@ -9,6 +9,7 @@ export interface LeagueItem {
   position: number;
   money: number;
   h2hMoney: number;
+  voucher: number;
 }
 
 export interface GameWeekItem {
