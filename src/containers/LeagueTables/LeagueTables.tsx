@@ -63,7 +63,7 @@ export default function LeagueTables() {
             <TableCell>{`Team & Manager`}</TableCell>
             <TableCell align="center">Point</TableCell>
             <TableCell align="right">Money</TableCell>
-            <TableCell align="right">Voucher</TableCell>
+            <TableCell align="center">Voucher</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
