@@ -10,10 +10,17 @@ import api from "api";
 import { ApiEndpointsEnum } from "enums/apis";
 import Chart from "react-google-charts";
 import { Grid } from "@material-ui/core";
+import useIsMobile from "containers/hooks/useIsMobile";
 
-export default function LeagueTables() {
+interface ILeagueTables {
+  width: string;
+}
+export default function LeagueTables({ width }: ILeagueTables) {
   const classes = useStyles();
+
+  const isMobile = useIsMobile();
   const [rows, setRows] = useState<Array<LeagueItem>>([]);
+  const [dataGetTop, setGetDataTop] = useState<any[]>();
 
   const fetchLeagueTables = async () => {
     try {
@@ -21,8 +28,15 @@ export default function LeagueTables() {
       setRows(res.data);
     } catch (error) {}
   };
+  const fetchTopUser = async () => {
+    try {
+      const res = await api.get(ApiEndpointsEnum.GET_TOP_USER);
+      setGetDataTop(res.data);
+    } catch (error) {}
+  };
   useEffect(() => {
     fetchLeagueTables();
+    fetchTopUser();
   }, []);
   const formatter = useMemo(() => {
     return new Intl.NumberFormat("vi");
@@ -41,27 +55,83 @@ export default function LeagueTables() {
       ]),
     ];
   }, [rows]);
+
   return (
     <div className={classes.container}>
-      <Grid container justifyContent="center">
-        <Chart
-          width={"100%"}
-          height={"500px"}
-          chartType="PieChart"
-          loader={<div>Loading Chart</div>}
-          data={dataPieChart}
-          options={{
-            title: "Total contribution money",
-          }}
-        />
+      <Grid className={classes.chart} container>
+        <Grid sm={12} justifyContent="center">
+          <Chart
+            width={"100%"}
+            height={"450px"}
+            chartType="PieChart"
+            loader={<div>Loading Chart</div>}
+            data={dataPieChart}
+            options={{
+              title: "Total contribution money",
+            }}
+          />
+          {dataGetTop && (
+            <Grid
+              className={`${
+                isMobile ? classes.topUserMobile : classes.topUser
+              }`}
+              item
+              justifyContent="center"
+            >
+              {isMobile ? (
+                <div>
+                  <div
+                    className={
+                      (classes.wrapTopPoint, classes.textTopUsermobile)
+                    }
+                  >
+                    <p
+                      className={classes.textTopUser}
+                    >{`Top Game Week Point:`}</p>
+                    <p
+                      className={classes.textDetailTopPointMobile}
+                    >{`${dataGetTop[0].topUserName}: ${dataGetTop[0].data}`}</p>
+                  </div>
+
+                  <div className={classes.textTopUsermobile}>
+                    <p className={classes.textTopUser}>{`Top Money:`}</p>
+                    <p
+                      className={classes.textDetailTopMoneyMobile}
+                    >{`${dataGetTop[1].topUserName}: ${dataGetTop[1].data}`}</p>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className={classes.wrapTopPoint}>
+                    <p
+                      className={classes.textTopUser}
+                    >{`Top Game Week Point:`}</p>
+                    <p
+                      className={classes.textDetailTopPoint}
+                    >{`${dataGetTop[0].topUserName}: ${dataGetTop[0].data}`}</p>
+                  </div>
+
+                  <div>
+                    <p className={classes.textTopUser}>{`Top Money:`}</p>
+                    <p
+                      className={classes.textDetailTopMoney}
+                    >{`${dataGetTop[1].topUserName}: ${dataGetTop[1].data}`}</p>
+                  </div>
+                </div>
+              )}
+            </Grid>
+          )}
+        </Grid>
       </Grid>
 
-      <Table className={classes.table} aria-label="h2h table" size="small">
+      <Table className={classes.table} aria-label="h2h table" size="medium">
         <TableHead className={classes.tableHead}>
           <TableRow>
             <TableCell>Rank</TableCell>
             <TableCell>{`Team & Manager`}</TableCell>
-            <TableCell align="center">Point</TableCell>
+            <TableCell width="20px" align="center">
+              Point
+            </TableCell>
             <TableCell align="right">Money</TableCell>
             <TableCell align="center">Voucher</TableCell>
           </TableRow>
