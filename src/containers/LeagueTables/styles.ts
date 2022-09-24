@@ -21,6 +21,7 @@ const useStyles = makeStyles({
   },
   textTopUsermobile: {
     display: "flex",
+    margin: "5px 0",
   },
   table: {
     margin: "20px 0",
