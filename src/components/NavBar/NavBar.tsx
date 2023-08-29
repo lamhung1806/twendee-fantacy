@@ -17,6 +17,10 @@ export default function NavBar() {
         to: RoutersEnum.H2H,
         title: "Game week",
       },
+      {
+        to: RoutersEnum.PRIZE,
+        title: "Prize & Rule",
+      },
     ],
     []
   );

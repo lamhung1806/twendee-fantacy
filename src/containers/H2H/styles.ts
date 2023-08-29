@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       textDecoration: "underline",
     },
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
   },
   manager: {
     color: colors.black,

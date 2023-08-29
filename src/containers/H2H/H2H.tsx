@@ -18,6 +18,7 @@ import { useEffect, useMemo } from "react";
 import api from "api";
 import { ApiEndpointsEnum } from "enums/apis";
 import Chart from "react-google-charts";
+import bestIcon from "../../assets/images/best.svg";
 
 const MAX_GAME_WEEK = 38;
 interface H2HProps {
@@ -27,6 +28,7 @@ function H2H({ width }: H2HProps) {
   const classes = useStyles();
   const [gameweek, setGameweek] = useState(1);
   const [gameWeekTables, setGameWeekTables] = useState<Array<GameWeekItem>>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [h2hResults, setH2HResults] = useState<Array<H2HItem>>([]);
   const previousGameWeek = () => {
     fetchGameWeekTable(gameweek - 1);
@@ -155,9 +157,11 @@ function H2H({ width }: H2HProps) {
                   <TableCell align="center">Transfer made</TableCell>
                   <TableCell align="center">Transfer bonus</TableCell>
                   <TableCell align="center">Classic point</TableCell>
-
+                  {/* <TableCell align="center">H2H point</TableCell> */}
                   <TableCell align="center">Ranking point</TableCell>
-                  <TableCell align="center">Money</TableCell>
+                  <TableCell align="center">Classic money</TableCell>
+                  <TableCell align="center">H2H money</TableCell>
+                  <TableCell align="center">Sum</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -178,7 +182,15 @@ function H2H({ width }: H2HProps) {
                         rel="noreferrer"
                         href={`https://fantasy.premierleague.com/entry/${gameweekItem.team.fplId}/event/${gameweek}`}
                       >
-                        {gameweekItem.team.fplName}
+                        <span>{gameweekItem.team.fplName}</span>
+                        {gameweekItem.position === 1 ? (
+                          <img
+                            src={bestIcon}
+                            alt="icon"
+                            width="16px"
+                            height="16px"
+                          />
+                        ) : null}
                       </a>
                       <p className={classes.manager}>
                         {gameweekItem.team.name}
@@ -193,11 +205,22 @@ function H2H({ width }: H2HProps) {
                     <TableCell align="center" className={classes.number}>
                       {gameweekItem.point}
                     </TableCell>
+                    {/* <TableCell align="center" className={classes.number}>
+                      {gameweekItem.h2hPoint}
+                    </TableCell> */}
                     <TableCell align="center" className={classes.number}>
                       {gameweekItem.localPoint}
                     </TableCell>
                     <TableCell align="center" className={classes.number}>
                       {formatter.format(gameweekItem.money)}
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {formatter.format(gameweekItem.h2hMoney)}
+                    </TableCell>
+                    <TableCell align="center" className={classes.number}>
+                      {formatter.format(
+                        gameweekItem.money + gameweekItem.h2hMoney
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}

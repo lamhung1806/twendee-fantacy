@@ -26,12 +26,14 @@ export default function LeagueTables({ width }: ILeagueTables) {
     try {
       const res = await api.get(ApiEndpointsEnum.GET_LEAGUE_TABLES);
       setRows(res.data);
+      console.log("res.data: ", res.data);
     } catch (error) {}
   };
   const fetchTopUser = async () => {
     try {
       const res = await api.get(ApiEndpointsEnum.GET_TOP_USER);
       setGetDataTop(res.data);
+      console.log("res.data: ", res.data);
     } catch (error) {}
   };
   useEffect(() => {
