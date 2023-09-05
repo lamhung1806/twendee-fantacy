@@ -59,7 +59,7 @@ function Prize() {
                     >{`${rewards?.top3LeaguePoint[1].topUserFplName} -  `}</span>
                     <span
                       className={classes.manager}
-                    >{`(${rewards?.top3LeaguePoint[2].topUserName} - ${rewards?.top3LeaguePoint[0].data} point)`}</span>
+                    >{`(${rewards?.top3LeaguePoint[1].topUserName} - ${rewards?.top3LeaguePoint[1].data} point)`}</span>
                   </div>
                 </div>
               </li>
