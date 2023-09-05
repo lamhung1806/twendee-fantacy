@@ -98,11 +98,21 @@ function Prize() {
                   <p>Contribution Award - 200.000VND</p>
                   <div>
                     <span
+                      style={{
+                        color: "red",
+                        fontWeight: 700,
+                      }}
                       className={classes.team}
                     >{`${rewards?.topDonate?.topUserFplName} -  `}</span>
-                    <span className={classes.manager}>{`(${
-                      rewards?.topDonate?.topUserName
-                    } - ${formatCurrenct(rewards?.topDonate?.data)})`}</span>
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: 700,
+                      }}
+                      className={classes.manager}
+                    >{`(${rewards?.topDonate?.topUserName}  ${formatCurrenct(
+                      rewards?.topDonate?.data
+                    )})`}</span>
                   </div>
                 </div>
               </li>
