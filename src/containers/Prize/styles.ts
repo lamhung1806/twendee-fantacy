@@ -22,6 +22,9 @@ export const useStyles = makeStyles({
 
   item: {
     marginBottom: 12,
+    "&>div": {
+      marginTop: 6,
+    },
   },
 
   team: {
