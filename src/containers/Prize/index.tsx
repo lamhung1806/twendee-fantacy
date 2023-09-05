@@ -100,9 +100,9 @@ function Prize() {
                     <span
                       className={classes.team}
                     >{`${rewards?.topDonate?.topUserFplName} -  `}</span>
-                    <span
-                      className={classes.manager}
-                    >{`(${rewards?.topDonate?.topUserName} - ${rewards?.topDonate?.data} point)`}</span>
+                    <span className={classes.manager}>{`(${
+                      rewards?.topDonate?.topUserName
+                    } - ${formatCurrenct(rewards?.topDonate?.data)})`}</span>
                   </div>
                 </div>
               </li>
