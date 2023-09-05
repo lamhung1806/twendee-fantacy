@@ -39,7 +39,7 @@ function Prize() {
             <ul className={classes.list}>
               <li className={classes.label}>
                 <div className={classes.item}>
-                  <p>1st Prize - 1.000.000VND</p>
+                  <p>1st Prize (1.000.000VND)</p>
                   <div>
                     <span
                       className={classes.team}
@@ -52,7 +52,7 @@ function Prize() {
               </li>
               <li className={classes.label}>
                 <div className={classes.item}>
-                  <p>Runner-up - 500.000VND</p>
+                  <p>Runner-up (500.000VND)</p>
                   <div>
                     <span
                       className={classes.team}
@@ -65,7 +65,7 @@ function Prize() {
               </li>
               <li className={classes.label}>
                 <div className={classes.item}>
-                  <p>3rd place - 200.000VND</p>
+                  <p>3rd place (200.000VND)</p>
                   <div>
                     <span
                       className={classes.team}
@@ -78,7 +78,7 @@ function Prize() {
               </li>
               <li className={classes.label}>
                 <div className={classes.item}>
-                  <p> Highest score of 1 GW (including season): - 200.000VND</p>
+                  <p> Highest score of 1 GW including season (200.000VND)</p>
                   {rewards?.topGWPoint.map(
                     ({ data, topUserFplName, topUserName }) => (
                       <div key={topUserFplName}>
@@ -95,7 +95,7 @@ function Prize() {
               </li>
               <li className={classes.label}>
                 <div className={classes.item}>
-                  <p>Contribution Award - 200.000VND</p>
+                  <p>Contribution Award (200.000VND)</p>
                   <div>
                     <span
                       style={{
@@ -126,7 +126,7 @@ function Prize() {
             <ul className={classes.list}>
               <li className={classes.label}>
                 <div className={classes.item}>
-                  <p> 1st Prize - 500.000VND</p>
+                  <p> 1st Prize (500.000VND)</p>
                   <div>
                     <span
                       className={classes.team}
@@ -139,7 +139,7 @@ function Prize() {
               </li>
               <li className={classes.label}>
                 <div className={classes.item}>
-                  <p> Runner-up - 200.000VND</p>
+                  <p> Runner-up (200.000VND)</p>
                   <div>
                     <span
                       className={classes.team}
@@ -152,7 +152,7 @@ function Prize() {
               </li>
               <li className={classes.label}>
                 <div className={classes.item}>
-                  <p> 3rd place - 100.000VND</p>
+                  <p> 3rd place (100.000VND)</p>
                   <div>
                     <span
                       className={classes.team}
