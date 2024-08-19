@@ -233,4 +233,4 @@ function H2H({ width }: H2HProps) {
   );
 }
 
-export default withWidth()(H2H);
+export default H2H;
