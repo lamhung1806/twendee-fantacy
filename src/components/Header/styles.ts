@@ -1,16 +1,18 @@
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { colors } from "common/styles/theme";
-import bgImg from "assets/images/bg-header.svg";
+import bgImg from "assets/images/bg-header.png";
 import bgPlayer from "assets/images/player-comp.png";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    backgroundColor: colors.purple,
+    // backgroundColor: colors.purple,
   },
   wrapper: {
-    background: `url(${bgImg})`,
-    backgroundSize: "cover",
     margin: "auto",
+    backgroundImage: `url(${bgImg}), url(/static/media/pattern-2-d.0a64c7c7.png), linear-gradient(to right, rgb(2, 239, 255), rgb(98, 123, 255))`,
+    backgroundPosition: "50% -460px, right -73px bottom -24px, 0px center",
+    backgroundSize: "618px 873px, 618px 873px, auto",
+    backgroundRepeat: "no-repeat",
   },
   player: {
     background: `url(${bgPlayer})`,

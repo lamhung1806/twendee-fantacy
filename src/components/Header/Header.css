@@ -2,9 +2,15 @@
   background-color: #36033b;
 }
 .wrapper {
-  background: url(/src/assets/images/bg-header.svg) no-repeat;
+  /* background: url(/src/assets/images/bg-header.png) no-repeat;
   background-size: cover;
-  margin: auto;
+  margin: auto; */
+
+  /* background-image: url(/src/assets/images/bg-header.png),
+    url(/src/assets/images/bg-header.png),
+    linear-gradient(to right, rgb(2, 239, 255), rgb(98, 123, 255));
+  background-position: 50% -460px, right -73px bottom -24px, 0px center;
+  background-size: 618px 873px, 618px 873px, auto; */
 }
 .player {
   background: url(/src/assets/images/player-comp.png) no-repeat;
