@@ -6,7 +6,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  withWidth,
   TableContainer,
 } from "@material-ui/core";
 import { useCallback, useState } from "react";
